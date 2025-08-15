@@ -20,7 +20,6 @@ const SectionTitle = ({ children, id }) => (
 
 const CertificationCard = ({ certification, index }) => {
   const [isFlipped, setIsFlipped] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
 
   // Shared card content components
   const CardHeader = ({ mobile = false }) => (
@@ -106,7 +105,7 @@ const CertificationCard = ({ certification, index }) => {
       href={certification.credentialUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`flex items-center justify-center w-full px-4 py-3 bg-accent-1 hover:bg-accent-1/90 text-primary-bg rounded-xl font-mono text-sm tracking-wide transition-all duration-300 shadow-lg ${className}`}
+      className={`flex items-center justify-center w-full px-4 py-3 bg-accent-1 hover:bg-accent-1/90 text-primary-bg rounded-xl font-mono text门店 sm tracking-wide transition-all duration-300 shadow-lg ${className}`}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={(e) => e.stopPropagation()}
@@ -118,6 +117,11 @@ const CertificationCard = ({ certification, index }) => {
     </motion.a>
   );
 
+  const handleTouch = (e) => {
+    e.preventDefault();
+    setIsFlipped(!isFlipped);
+  };
+
   return (
     <motion.div
       className="group h-80 md:h-80"
@@ -126,11 +130,12 @@ const CertificationCard = ({ certification, index }) => {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
     >
-      {/* Desktop: Flip Card */}
-      <div className="hidden md:block perspective-1000 h-full"
-           onMouseEnter={() => setIsFlipped(true)}
-           onMouseLeave={() => setIsFlipped(false)}>
-        
+      <div 
+        className="relative h-full perspective-1000"
+        onMouseEnter={() => setIsFlipped(true)}
+        onMouseLeave={() => setIsFlipped(false)}
+        onTouchStart={handleTouch}
+      >
         <motion.div
           className="relative w-full h-full cursor-pointer transform-gpu preserve-3d"
           animate={{ rotateY: isFlipped ? 180 : 0 }}
@@ -138,8 +143,10 @@ const CertificationCard = ({ certification, index }) => {
           style={{ transformStyle: "preserve-3d" }}
         >
           {/* Front */}
-          <div className="absolute inset-0 w-full h-full backface-hidden"
-               style={{ backfaceVisibility: "hidden" }}>
+          <div 
+            className="absolute inset-0 w-full h-full backface-hidden"
+            style={{ backfaceVisibility: "hidden" }}
+          >
             <div className="relative h-full bg-primary-bg/80 backdrop-blur-sm border border-text-secondary/15 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300">
               <div className="absolute inset-0 bg-gradient-to-br from-accent-1/5 via-transparent to-accent-1/10"></div>
               
@@ -147,9 +154,12 @@ const CertificationCard = ({ certification, index }) => {
                 <CardHeader />
                 <div className="flex-1 flex flex-col justify-center">
                   <TechStackPreview />
+                  <div className="block md:hidden mt-4">
+                    <TechStackTags limit={3} />
+                  </div>
                 </div>
                 <div className="mb-3"><LevelBadge /></div>
-                <div className="text-center">
+                <div className="text-center md:block hidden">
                   <motion.div
                     className="inline-flex items-center text-text-secondary/70 text-xs font-mono"
                     animate={{ opacity: [0.5, 1, 0.5] }}
@@ -161,13 +171,27 @@ const CertificationCard = ({ certification, index }) => {
                     HOVER
                   </motion.div>
                 </div>
+                <div className="text-center block md:hidden">
+                  <motion.div
+                    className="inline-flex items-center text-text-secondary/70 text-xs font-mono"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    TAP
+                  </motion.div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Back */}
-          <div className="absolute inset-0 w-full h-full backface-hidden"
-               style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+          <div 
+            className="absolute inset-0 w-full h-full backface-hidden"
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          >
             <div className="h-full bg-primary-bg/90 backdrop-blur-sm border border-accent-1/20 rounded-2xl shadow-2xl">
               <div className="h-full flex flex-col p-6">
                 <div className="mb-4">
@@ -214,90 +238,6 @@ const CertificationCard = ({ certification, index }) => {
             </div>
           </div>
         </motion.div>
-      </div>
-
-      {/* Mobile: Expandable Card */}
-      <div className="block md:hidden h-auto">
-        <div className="bg-primary-bg/80 backdrop-blur-sm border border-text-secondary/15 rounded-2xl overflow-hidden shadow-xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent-1/5 via-transparent to-accent-1/10 pointer-events-none"></div>
-          
-          <div className="relative p-5">
-            <CardHeader mobile />
-            <div className="mb-4"><LevelBadge /></div>
-            
-            <div className="mb-4">
-              <TechStackTags limit={3} />
-            </div>
-
-            <motion.button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center justify-between w-full px-4 py-3 bg-text-secondary/5 hover:bg-text-secondary/10 border border-text-secondary/10 rounded-xl transition-all duration-300 mb-4"
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="text-text-primary font-mono text-sm">
-                {isExpanded ? 'HIDE DETAILS' : 'VIEW DETAILS'}
-              </span>
-              <motion.svg
-                className="w-4 h-4 text-accent-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                animate={{ rotate: isExpanded ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </motion.svg>
-            </motion.button>
-
-            <AnimatePresence>
-              {isExpanded && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  <div className="pt-2 space-y-4">
-                    <div>
-                      <h4 className="text-sm font-mono text-accent-1 mb-2">DESCRIPTION</h4>
-                      <p className="text-text-secondary text-sm leading-relaxed">
-                        {certification.description}
-                      </p>
-                    </div>
-
-                    <div>
-                      <h4 className="text-sm font-mono text-accent-1 mb-2">TECHNOLOGIES</h4>
-                      <TechStackTags />
-                    </div>
-
-                    {certification.verificationCodes && (
-                      <div>
-                        <h4 className="text-sm font-mono text-accent-1 mb-2">VERIFICATION</h4>
-                        <div className="space-y-1">
-                          {certification.verificationCodes.enrollment && (
-                            <div className="text-xs font-mono text-text-secondary">
-                              <span className="text-text-secondary/70">ID: </span>
-                              <span className="text-accent-1">{certification.verificationCodes.enrollment}</span>
-                            </div>
-                          )}
-                          {certification.verificationCodes.user && (
-                            <div className="text-xs font-mono text-text-secondary">
-                              <span className="text-text-secondary/70">User: </span>
-                              <span className="text-accent-1">{certification.verificationCodes.user}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    <CredentialButton />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
       </div>
     </motion.div>
   );
