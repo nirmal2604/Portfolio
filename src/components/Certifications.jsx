@@ -21,7 +21,6 @@ const SectionTitle = ({ children, id }) => (
 const CertificationCard = ({ certification, index }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // Shared card content components
   const CardHeader = ({ mobile = false }) => (
     <div className={`flex items-start justify-between ${mobile ? 'mb-4' : 'mb-4'}`}>
       <div className="flex-1 min-w-0">
@@ -105,7 +104,7 @@ const CertificationCard = ({ certification, index }) => {
       href={certification.credentialUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`flex items-center justify-center w-full px-4 py-3 bg-accent-1 hover:bg-accent-1/90 text-primary-bg rounded-xl font-mono text门店 sm tracking-wide transition-all duration-300 shadow-lg ${className}`}
+      className={`flex items-center justify-center w-full px-4 py-3 bg-accent-1 hover:bg-accent-1/90 text-primary-bg rounded-xl font-mono text-sm tracking-wide transition-all duration-300 shadow-lg ${className}`}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={(e) => e.stopPropagation()}
@@ -119,32 +118,34 @@ const CertificationCard = ({ certification, index }) => {
 
   const handleTouch = (e) => {
     e.preventDefault();
-    setIsFlipped(!isFlipped);
+    setTimeout(() => setIsFlipped(!isFlipped), 100);
   };
 
   return (
     <motion.div
-      className="group h-80 md:h-80"
+      className="group h-80 min-h-80 mb-4 md:mb-0"
+      style={{ boxSizing: "border-box" }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
     >
       <div 
-        className="relative h-full perspective-1000"
+        className="relative h-full overflow-hidden"
+        style={{ perspective: "1000px", touchAction: "none" }}
         onMouseEnter={() => setIsFlipped(true)}
         onMouseLeave={() => setIsFlipped(false)}
         onTouchStart={handleTouch}
       >
         <motion.div
-          className="relative w-full h-full cursor-pointer transform-gpu preserve-3d"
+          className="relative w-full h-full cursor-pointer"
           animate={{ rotateY: isFlipped ? 180 : 0 }}
-          transition={{ duration: 0.6, type: "spring", stiffness: 100, damping: 20 }}
-          style={{ transformStyle: "preserve-3d" }}
+          transition={{ duration: 0.4, type: "tween", ease: "easeInOut" }}
+          style={{ transformStyle: "preserve-3d", willChange: "transform" }}
         >
           {/* Front */}
           <div 
-            className="absolute inset-0 w-full h-full backface-hidden"
+            className="absolute inset-0 w-full h-80"
             style={{ backfaceVisibility: "hidden" }}
           >
             <div className="relative h-full bg-primary-bg/80 backdrop-blur-sm border border-text-secondary/15 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300">
@@ -162,7 +163,7 @@ const CertificationCard = ({ certification, index }) => {
                 <div className="text-center md:block hidden">
                   <motion.div
                     className="inline-flex items-center text-text-secondary/70 text-xs font-mono"
-                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    animate={{ opacity: [0.7, 1, 0.7] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
                     <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,7 +175,7 @@ const CertificationCard = ({ certification, index }) => {
                 <div className="text-center block md:hidden">
                   <motion.div
                     className="inline-flex items-center text-text-secondary/70 text-xs font-mono"
-                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    animate={{ opacity: [0.7, 1, 0.7] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
                     <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,7 +190,7 @@ const CertificationCard = ({ certification, index }) => {
 
           {/* Back */}
           <div 
-            className="absolute inset-0 w-full h-full backface-hidden"
+            className="absolute inset-0 w-full h-80"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
             <div className="h-full bg-primary-bg/90 backdrop-blur-sm border border-accent-1/20 rounded-2xl shadow-2xl">
@@ -339,7 +340,7 @@ const Certifications = () => {
           ))}
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
           <AnimatePresence>
             {filteredCertifications.map((certification, index) => (
               <CertificationCard
