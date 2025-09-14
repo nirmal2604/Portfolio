@@ -43,7 +43,6 @@ const Navbar = () => {
           className="text-2xl font-bold font-mono text-accent-1 cursor-pointer hover:opacity-80 transition-opacity"
         >
           {personalInfo.name}
-          {/* <span className="text-text-primary">.</span> */}
         </ScrollLink>
 
         {/* Desktop Menu */}
@@ -54,7 +53,7 @@ const Navbar = () => {
               to={item.to}
               smooth={true}
               duration={500}
-              offset={-70} // Adjust offset based on navbar height
+              offset={-70}
               className="text-text-secondary hover:text-accent-1 font-mono transition-colors cursor-pointer"
               activeClass="text-accent-1"
               spy={true}

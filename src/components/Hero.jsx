@@ -7,11 +7,18 @@ import { motion } from 'framer-motion';
 
 const Hero = () => {
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center bg-primary-bg relative overflow-hidden">
-      {/* Optional: Subtle background elements if you want */}
-      {/* <div className="absolute inset-0 opacity-5">
-        <img src="/path/to/subtle-code-pattern.svg" alt="background pattern" className="w-full h-full object-cover"/>
-      </div> */}
+    // Choose ONE of these background classes:
+    // static-grid - Basic static white grid lines
+    // dot-grid - Dot pattern  
+    // animated-grid - DOPE cyan/magenta moving grid with glow effect
+    // pulsing-grid - FIXED pulsing grid (now actually pulses!)
+    // matrix-grid - Matrix movie style falling green grid
+    // rainbow-grid - Moving grid with changing colors!
+    // accent-grid - Large colored grid with your theme colors  
+    // diagonal-grid - Diagonal cross-hatch pattern
+    <section id="hero" className="animated-grid min-h-screen flex items-center justify-center relative overflow-hidden z-0 pt-20">
+      {/* Optional: Add a subtle overlay for better text contrast */}
+      <div className="absolute inset-0 bg-black bg-opacity-20 z-5"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <motion.div
@@ -86,7 +93,7 @@ const Hero = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-text-secondary hover:text-accent-1 transition-colors"
-              aria-label={link.url.split(':')[0]} // For accessibility e.g., "mailto", "https"
+              aria-label={link.url.split(':')[0]}
             >
               {React.cloneElement(link.icon, { size: 28 })}
             </a>
@@ -99,7 +106,7 @@ const Hero = () => {
         to="about" 
         smooth={true} 
         duration={800} 
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce"
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-accent-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

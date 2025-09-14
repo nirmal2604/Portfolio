@@ -1,10 +1,9 @@
-/* src/index.css */
+/* Import Google Fonts - Must be at the top before other rules */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import Google Fonts - Placed after Tailwind directives for better override control if needed */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
 
 @layer base {
   html {
@@ -18,7 +17,7 @@
   }
 }
 
-/* Custom scrollbar (using your previous example) */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -32,45 +31,174 @@
   @apply bg-opacity-80;
 }
 
-/* For section transitions (using your previous example) */
+/* For section transitions */
 .section-fade-in {
   opacity: 0;
   transform: translateY(20px);
 }
 
-/* --- ADD THESE STYLES FOR CARD FLIP --- */
+/* Card Flip Styles */
 .perspective {
-  perspective: 1000px; /* Creates the 3D space for children. Adjust value for more/less perspective. */
+  perspective: 1000px;
 }
 
 .experience-card-inner {
-  transform-style: preserve-3d; /* Allows children to be positioned in 3D space relative to this parent. */
+  transform-style: preserve-3d;
 }
 
 .experience-card-front,
 .experience-card-back {
-  backface-visibility: hidden; /* Hides the back of the card when it's not facing the viewer. */
-  -webkit-backface-visibility: hidden; /* For Safari browser compatibility. */
-  /* Ensure transitions on transform if you want smoother manual flips, though Tailwind handles the main flip */
-  /* transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1); */ /* Example, already handled by Tailwind's duration class on inner div */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* Utility for rotating Y - Tailwind's rotate-y-180 class should handle this,
-   but having it explicitly can be a fallback or for understanding.
-   Tailwind v3+ includes `rotate-y-180` by default.
-   If for some reason it's not working, this custom class can be used.
-   The Experience.jsx component uses Tailwind's `rotate-y-180` class.
-*/
-/*
-.rotate-y-180 {
-  transform: rotateY(180deg);
+/* Basic Static Grid */
+section#hero.static-grid {
+  background-color: #0a0a0a !important;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 2px, transparent 1px) !important;
+  background-size: 50px 50px !important;
+  min-height: 100vh !important;
+  position: relative !important;
 }
-*/
-/* --- END OF CARD FLIP STYLES --- */
 
-/* If you had animation-delay classes for blobs, they are not needed for this card flip version */
-/*
-.animation-delay-2000 {
-  animation-delay: 2000ms;
+/* Dot Grid Pattern */
+section#hero.dot-grid {
+  background-color: #0a0a0a !important;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 1.5px, transparent 1px) !important;
+  background-size: 30px 30px !important;
+  min-height: 100vh !important;
+  position: relative !important;
 }
-*/
+
+/* Animated Moving Grid - DOPE VERSION */
+section#hero.animated-grid {
+  background-color: #0a0a0a !important;
+  background-image: 
+    linear-gradient(rgba(64, 224, 208, 0.4) 1px, transparent 2px),
+    linear-gradient(90deg, rgba(64, 224, 208, 0.4) 1px, transparent 2px) !important;
+  background-size: 60px 60px !important;
+  animation: gridSlide 8s linear infinite !important;
+  min-height: 100vh !important;
+  position: relative !important;
+}
+
+@keyframes gridSlide {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 80px 80px, 80px 80px; }
+}
+
+@keyframes gridGlow {
+  0%, 100% { 
+    background-image: 
+      linear-gradient(rgba(0, 255, 255, 0.3) 3px, transparent 3px),
+      linear-gradient(90deg, rgba(255, 0, 255, 0.3) 3px, transparent 3px);
+  }
+  50% { 
+    background-image: 
+      linear-gradient(rgba(0, 255, 255, 0.8) 3px, transparent 3px),
+      linear-gradient(90deg, rgba(255, 0, 255, 0.8) 3px, transparent 3px);
+  }
+}
+
+/* Pulsing Grid - FIXED VERSION */
+section#hero.pulsing-grid {
+  background-color: #0a0a0a !important;
+  min-height: 100vh !important;
+  position: relative !important;
+  background-image: 
+    linear-gradient(rgba(64, 224, 208, 1) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(64, 224, 208, 1) 2px, transparent 2px) !important;
+  background-size: 50px 50px !important;
+  animation: realPulse 1.5s ease-in-out infinite !important;
+}
+
+@keyframes realPulse {
+  0% { 
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% { 
+    opacity: 0.2;
+    transform: scale(1);
+  }
+}
+
+/* MATRIX STYLE GRID */
+section#hero.matrix-grid {
+  background-color: #000000 !important;
+  background-image: 
+    linear-gradient(rgba(0, 255, 0, 0.8) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(0, 255, 0, 0.8) 2px, transparent 2px) !important;
+  background-size: 30px 30px !important;
+  animation: matrixFall 4s linear infinite, matrixGlow 2s ease-in-out infinite !important;
+  min-height: 100vh !important;
+  position: relative !important;
+}
+
+@keyframes matrixFall {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 30px, 30px 0; }
+}
+
+@keyframes matrixGlow {
+  0%, 100% { filter: brightness(0.7) contrast(1); }
+  50% { filter: brightness(1.3) contrast(1.5); }
+}
+
+/* BONUS: Rainbow Moving Grid */
+section#hero.rainbow-grid {
+  background-color: #0a0a0a !important;
+  background-image: 
+    linear-gradient(rgba(255, 107, 107, 0.4) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(78, 205, 196, 0.4) 2px, transparent 2px) !important;
+  background-size: 40px 40px !important;
+  animation: rainbowSlide 6s linear infinite, colorShift 4s ease-in-out infinite !important;
+  min-height: 100vh !important;
+  position: relative !important;
+}
+
+@keyframes rainbowSlide {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 40px 40px, 40px 40px; }
+}
+
+@keyframes colorShift {
+  0%, 100% { 
+    background-image: 
+      linear-gradient(rgba(255, 107, 107, 0.4) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(78, 205, 196, 0.4) 2px, transparent 2px);
+  }
+  50% { 
+    background-image: 
+      linear-gradient(rgba(138, 43, 226, 0.4) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255, 215, 0, 0.4) 2px, transparent 2px);
+  }
+}
+
+/* Large Accent Grid */
+section#hero.accent-grid {
+  background-color: #0a0a0a !important;
+  background-image: 
+    linear-gradient(rgba(255, 107, 107, 0.12) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(78, 205, 196, 0.12) 2px, transparent 2px) !important;
+  background-size: 80px 80px !important;
+  min-height: 100vh !important;
+  position: relative !important;
+}
+
+/* Diagonal Grid Pattern */
+section#hero.diagonal-grid {
+  background-color: #0a0a0a !important;
+  background-image: 
+    linear-gradient(45deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px) !important;
+  background-size: 35px 35px !important;
+  min-height: 100vh !important;
+  position: relative !important;
+}

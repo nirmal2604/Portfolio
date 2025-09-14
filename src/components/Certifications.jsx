@@ -64,7 +64,7 @@ const CertificationCard = ({ certification, index }) => {
       ))}
       {certification.techStack.length > 4 && (
         <div className="flex items-center">
-          <div className="w-2 h-2 bg-text-secondary/50 rounded-full mr-3"></div>
+          <div className="w-1 h-1 bg-text-secondary/50 rounded-full mr-3"></div>
           <span className="text-text-secondary font-mono text-sm">+{certification.techStack.length - 4} more</span>
         </div>
       )}
